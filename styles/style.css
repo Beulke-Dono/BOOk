@@ -1,9 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
 :root {
     --color-white: #fff;
     --color-dark1: #272727;
     --color-dark2: #2d2d2d;
     --color-dark3: #414141;
-    --color-dark4: #1c1c1c;
+    --color-dark4: #1c1c1c; /*box-shadow*/
     --color-dark5: #343434;
     --color-purple: #b040ff;
 }
@@ -13,7 +15,17 @@
     padding: 0;
 }
 
-/* Header */
+body {
+    font-family: "Roboto", sans-serif;
+    background-color: var(--color-dark1);
+    color: var(--color-white);
+}
+
+body * {
+    box-sizing: border-box;
+}
+
+/* Index > Header */
     header, .navigation_header {
         display: flex;
         align-items: center;
@@ -21,6 +33,7 @@
     } 
     header {
         background-color: var(--color-dark2);
+        /* Sombra para eixo X, Y, respectivamente; blur, cor */
         box-shadow: 1px 1px 4px var(--color-dark4   );
         height: 76px;
         justify-content: space-between;
@@ -85,13 +98,141 @@
         align-items: center;
     }
 
-/* Body */
-    body, main{
+/* Index > content */
+    .content{
         font-family: Arial, Helvetica, sans-serif;
         background-color: var(--color-dark1);
-        color: var(--color-white)
-        
-    }
-    main {
+        color: var(--color-white);
         transition: 1s;
+    }
+
+    
+/* Login */
+    .main_login {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        /* Alinhamento para o eixo X */
+        justify-content: center;
+        /* Alinahmento para o eixo Y */
+        align-items: center;
+    }
+
+    .left_login, .right_login {
+        /* vw ou vh é referente a porcentagem da tela do usuário tomada pelo elemento */
+        width: 50vw;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .left_login {
+        flex-direction: column;
+    }
+
+    .left_image_login {
+        width: 35vw;
+    }
+    
+    .left_login h1 {
+        font-size: 3vw;
+    }
+
+    .left_login a {
+        text-decoration: none;
+        color: var(--color-dark3);
+    }
+
+    .card_login {
+        /* Porcentagem se baseará no tamanho da div em que essa classe se encontra */
+        width: 40%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 30px 35px;
+        background-color: var(--color-dark5);
+        border-radius: 20px;
+        box-shadow: 0px 10px 40px var(--color-dark4);
+    }
+    .card_login h1 {
+        font-family: Verdana, Geneva, Tahoma, sans-serif ;
+        color: var(--color-purple);
+        font-weight: 800;
+    }
+
+    .text_field {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        margin: 10px 0px;
+    }
+
+    .text_field input {
+        width: 100%;
+        border: none;
+        border-radius: 10px;
+        padding: 15px;
+        background-color: var(--color-dark3);
+        color: var(--color-white);
+        font-size: 12pt;
+        box-shadow: 0px 10px 40px var(--color-dark4);
+        /* outline é aquela "hitbox" que aparece ao clicarmos em um elemento */
+        outline: none;
+        box-sizing: border-box;
+    }
+
+    .text_field label {
+        color: var(--color-white);
+        margin-bottom: 10px;
+    }
+
+    .btn_login {
+        width: 100%;
+        padding: 16px 0px;
+        margin: 25px;
+        border: none;
+        border-radius: 8px;
+        outline: none;
+        font-weight: 800;
+        letter-spacing: 2px;
+        background-color: var(--color-purple);
+        cursor: pointer;
+        box-shadow: 0px 10px 40px -12px var(--color-dark4);
+        transition: 1s;
+    }
+
+    .btn_login:hover {
+        box-shadow: 10px 10px 40px -12px var(--color-purple);;
+    }
+
+    @media only screen and (max-width: 950px) {
+        .card_login {
+            width: 85%;
+        }
+    }
+    @media only screen and (max-width: 600px) {
+        .main_login {
+            flex-direction: column;
+        }
+
+        .left_login h1 {
+            display: none;
+        }
+
+        .left_login {
+            width: 100%;
+            height: auto;
+        }
+
+        .right_login {
+            width: 100%;
+            height: auto;
+        }
+
+        .left_image_login {
+            width: 35vh;
+        }
     }
