@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="shortcut icon" type="images/png" href="{{ url_for('static', filename='images/icon_book.png') }}">
+    <title>Login</title>
+</head>
+<body>
+    <main class="main_login">
+        <aside class="left_login">
+            <h1>Bem vindo de volta!<br>BOO estava esperando você!</h1>
+            <img src="{{ url_for('static', filename='images/cute-ghost-login.svg') }}" class="left_image_login" alt="BOO Animation">
+            <a href="https://storyset.com/celebration">Celebration illustrations by Storyset</a>
+        </aside>
+        <div class="right_login">
+            <div class="card_login">
+                <h1>Login</h1>
+                <div class="text_field">
+                    <label for="email">Email</label>
+                    <input type="text" name="email" placeholder="Email">
+                </div>
+                <div class="text_field">
+                    <label for="senha">Senha</label>
+                    <input type="password" name="senha" placeholder="Senha">
+                </div>
+                <button class="btn_login">LOGIN</button>
+            </div>
+        </div>
+    </main>   
+</body>
+</html>
