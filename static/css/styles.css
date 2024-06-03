@@ -141,6 +141,13 @@ body * {
     .left_login a {
         text-decoration: none;
         color: var(--color-dark3);
+        transition: 1s;
+    }
+
+    .right_login a {
+        text-decoration: none;
+        color: var(--color-purple);
+        transition: 1s;
     }
 
     .card_login {
