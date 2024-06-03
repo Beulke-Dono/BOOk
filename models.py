@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from datetime import datetime
 
 db = SQLAlchemy()
 
@@ -17,11 +18,12 @@ class Author(db.Model):
 
 class Book(db.Model):
     __tablename__ = 'Book'
-    id_book = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    title = db.Column(db.String(100), nullable=False)
-    overview = db.Column(db.Text)
-    publication_date = db.Column(db.TIMESTAMP, default=db.func.current_timestamp())
-    id_author = db.Column(db.Integer, db.ForeignKey('Author.id_author'), nullable=False)
+    id_book = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    author = db.Column(db.String(100), nullable=False)
+    overview = db.Column(db.String(500), nullable=False)
+    release_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    cover_image = db.Column(db.String(100), nullable=False)
 
 class Genre(db.Model):
     __tablename__ = 'Genre'

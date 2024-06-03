@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="shortcut icon" type="images/png" href="{{ url_for('static', filename='images/icon_book.png') }}">
+    <title>Enviar Livro</title>
+</head>
+<body>
+    <main class="main_login">
+        <div class="card_login">
+            <h1>Enviar Livro</h1>
+            <form action="{{ url_for('enviarLivro') }}" method="post" enctype="multipart/form-data">
+                <div class="text_field">
+                    <label for="name_book">Nome do Livro</label>
+                    <input type="text" name="name_book" placeholder="Nome do Livro" required>
+                </div>
+                <div class="text_field">
+                    <label for="author">Nome de Autor</label>
+                    <input type="text" name="author" placeholder="Nome de Autor" required>
+                </div>
+                <div class="text_field">
+                    <label for="overview">Resumo do Livro</label>
+                    <input type="text" name="overview" placeholder="Resumo" required>
+                </div>
+                <div class="text_field">
+                    <label for="publication_date">Data de Publicação</label>
+                    <input type="date" name="publication_date" required>
+                </div>
+                <div class="text_field">
+                    <label for="cover">Capa do Livro</label>
+                    <input type="file" name="cover" required>
+                </div>
+                <div class="text_field">
+                    <label for="genres">Gêneros</label>
+                    <div class="text_field">
+                        <div class="genre-checkboxes">
+                            {% for genre in genres %}
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="genre_{{ genre.id_genre }}" name="genres" value="{{ genre.name_genre }}">
+                                <label for="genre_{{ genre.id_genre }}">{{ genre.name_genre }}</label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                <button class="btn_login">Enviar</button>
+            </form>
+        </div>
+    </main>
+<script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+</body>
+</html>

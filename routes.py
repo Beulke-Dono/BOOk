@@ -1,5 +1,8 @@
+import os
 from app import app, db
 from functools import wraps
+from datetime import datetime
+from werkzeug.utils import secure_filename
 from flask import render_template, request, redirect, url_for, session, flash
 from models import User, Author, Book, Genre, Book_Author, Book_Genre, SavedBooks
 
@@ -10,6 +13,15 @@ def login_required(f):
             return redirect(url_for('login'))
         return f(*args, **kwargs)
     return decorated_function
+
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+#### ROTAS
 
 @app.route('/')
 @login_required
@@ -94,3 +106,54 @@ def usuario():
 def logout():
     session.pop('user_id', None)
     return redirect(url_for('login'))
+
+@app.route('/enviar_livro')
+@login_required
+def enviarLivro():
+    # Carregar gêneros existentes
+    genres = Genre.query.all()
+    user_name = None
+    if 'user_id' in session:
+        user_id = session['user_id']
+        user = User.query.get(user_id)
+        if user:
+            user_name = user.name
+    return render_template('enviar_livro.html', user_name=user_name, genres=genres)
+
+
+@app.route('/enviar_livro', methods=['POST'])
+@login_required
+def envioLivro():
+    if request.method == 'POST':
+        name_book = request.form['name_book']
+        author = request.form['author']
+        overview = request.form['overview']
+        publication_date = datetime.strptime(request.form['publication_date'], '%Y-%m-%d')
+        genres = request.form.getlist('genres')  # Recebe uma lista de gêneros
+        cover = request.files['cover']
+        
+        # Salvar a capa do livro
+        if cover:
+            filename = secure_filename(cover.filename)
+            cover.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        
+        # Inicia uma nova transação
+        try:
+            db.session.begin()
+            
+            # Adicionar o livro ao banco de dados
+            novo_livro = Book(title=name_book, overview=overview, publication_date=publication_date, id_author=author)
+            db.session.add(novo_livro)
+            db.session.flush()  # Obtém o ID do livro antes de adicionar os gêneros
+            
+            # Adicionar os gêneros ao banco de dados
+            for genre_id in genres:
+                livro_genero = Book_Genre(id_book=novo_livro.id_book, id_genre=genre_id)
+                db.session.add(livro_genero)
+            
+            db.session.commit()  # Confirma a transação
+            return redirect(url_for('index'))
+        except Exception as e:
+            db.session.rollback()  # Desfaz a transação em caso de erro
+            flash('Erro ao enviar o livro: ' + str(e), 'error')
+            return redirect(url_for('enviar_livro'))

@@ -21,7 +21,7 @@
             <nav class="navigation_header" id="navigation_header">
                 <a href="{{ url_for('index') }}">Home</a>
                 <a href="{{ url_for('usuario') }}" class="active">Usuário</a>
-                <a href="#">Sobre</a>
+                <a href="{{ url_for('enviarLivro') }}">Enivar Livro</a>
                 <a href="{{ url_for('logout') }}">Sair</a>
                 <img src="{{ url_for('static', filename='images/userphoto.png') }}" alt="user-photo" class="logo">
                 {% if user_name %}
