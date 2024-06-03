@@ -1,15 +1,27 @@
 from app import app, db
+from functools import wraps
 from flask import render_template, request, redirect, url_for, session, flash
 from models import User, Author, Book, Genre, Book_Author, Book_Genre, SavedBooks
 
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if 'user_id' not in session:
+            return redirect(url_for('login'))
+        return f(*args, **kwargs)
+    return decorated_function
 
 @app.route('/')
+@login_required
 def index():
-    # if 'user_id' in session:
-    #     user_id = session['user_id']
-    #     user = User.query.get(user_id)
-    #     return f'Bem-vindo, {user.name}!'
-        return render_template('index.html')
+    user_name = None
+    if 'user_id' in session:
+        user_id = session['user_id']
+        user = User.query.get(user_id)
+        if user:
+            user_name = user.name
+    return render_template('index.html', user_name=user_name)
+
 
 @app.route('/cadastro')
 def cadastro():
@@ -68,5 +80,17 @@ def detalhes_livro():
 
 
 @app.route('/usuario')
+@login_required
 def usuario():
-    return render_template('usuario.html')
+    user_name = None
+    if 'user_id' in session:
+        user_id = session['user_id']
+        user = User.query.get(user_id)
+        if user:
+            user_name = user.name
+    return render_template('usuario.html', user_name=user_name)
+
+@app.route('/logout')
+def logout():
+    session.pop('user_id', None)
+    return redirect(url_for('login'))

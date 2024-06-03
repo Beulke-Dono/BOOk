@@ -22,7 +22,11 @@
                 <a href="{{ url_for('index') }}" class="active">Home</a>
                 <a href="{{ url_for('usuario') }}">Usuário</a>
                 <a href="#">Sobre</a>
-                <a href="{{ url_for('login') }}">Sair</a>
+                <a href="{{ url_for('logout') }}">Sair</a>
+                <img src="{{ url_for('static', filename='images/userphoto.png') }}" alt="user-photo" class="logo">
+                {% if user_name %}
+                <span>{{ user_name }}</span>
+                {% endif %}
             </nav>            
         </header>
         <!-- tabindex = "0" faz com que uma div (elemento não clicável) possa chamar funções com um clique -->

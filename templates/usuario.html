@@ -3,9 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <link rel="shortcut icon" type="images/png" href="{{ url_for('static', filename='images/icon_book.png') }}">
     <title>Usuário</title>
 </head>
     <body>
-        
+        <header id="header">
+            <button onclick="toggleSidebar()" class="btn_icon_header">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
+                    <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"/>
+                </svg>
+            </button>
+            <div class="logo_text_header">
+                <img src="{{ url_for('static', filename='images/logo_book.png') }}" alt="Logo BOOk" class="logo">
+                <h1>BOOk</h1>
+            </div>
+            <nav class="navigation_header" id="navigation_header">
+                <a href="{{ url_for('index') }}">Home</a>
+                <a href="{{ url_for('usuario') }}" class="active">Usuário</a>
+                <a href="#">Sobre</a>
+                <a href="{{ url_for('logout') }}">Sair</a>
+                <img src="{{ url_for('static', filename='images/userphoto.png') }}" alt="user-photo" class="logo">
+                {% if user_name %}
+                <span>{{ user_name }}</span>
+                {% endif %}
+            </nav>            
+        </header>
+        <!-- tabindex = "0" faz com que uma div (elemento não clicável) possa chamar funções com um clique -->
+        <main tabindex="0" onclick="closeSidebar()" class="content" id="content">
+            <div class="books_usuario">
+                
+            </div>
+        </main>
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
     </body>
 </html>
