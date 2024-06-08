@@ -1,5 +1,5 @@
 from app import app
-from models import db, Genre
+from models import db, Genre, User
 
 # Lista de gêneros a serem inseridos no banco de dados
 genres = [
@@ -15,5 +15,13 @@ with app.app_context():
         genre = Genre(name_genre=genre_name)
         db.session.add(genre)
     
+    # Criar usuário de teste
+    admin = User(
+        name ='admin', 
+        email='admin@gmail.com', 
+        password='admin123'
+    )
+    db.session.add(admin)
+
     db.session.commit()
-    print("Banco de dados e gêneros criados com sucesso!")
+    print("Banco de dados criados com sucesso!")
