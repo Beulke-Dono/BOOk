@@ -33,24 +33,30 @@
     });
 
 // Enviar Livro > Genres Select
-document.addEventListener("DOMContentLoaded", function () {
-    var selectGenres = document.querySelector("select[name='genres']");
-    var selectedGenresSpan = document.getElementById("selectedGenres");
-    var clearGenresButton = document.getElementById("clearGenres");
+    document.addEventListener("DOMContentLoaded", function () {
+        var selectGenres = document.querySelector("select[name='genres']");
+        var selectedGenresSpan = document.getElementById("selectedGenres");
+        var clearGenresButton = document.getElementById("clearGenres");
 
-    selectGenres.addEventListener("change", function () {
-        var selectedGenres = [];
-        var options = this.selectedOptions;
-        for (var i = 0; i < options.length; i++) {
-            selectedGenres.push(options[i].textContent);
-        }
-        selectedGenresSpan.textContent = selectedGenres.join(", ");
-    });
-
-    clearGenresButton.addEventListener("click", function () {
-        selectGenres.querySelectorAll("option").forEach(function(option) {
-            option.selected = false;
+        selectGenres.addEventListener("change", function () {
+            var selectedGenres = [];
+            var options = this.selectedOptions;
+            for (var i = 0; i < options.length; i++) {
+                selectedGenres.push(options[i].textContent);
+            }
+            selectedGenresSpan.textContent = selectedGenres.join(", ");
         });
-        selectedGenresSpan.textContent = "";
+
+        clearGenresButton.addEventListener("click", function () {
+            selectGenres.querySelectorAll("option").forEach(function(option) {
+                option.selected = false;
+            });
+            selectedGenresSpan.textContent = "";
+        });
     });
-});
+
+    //Mostrar filename
+    document.getElementById('cover').addEventListener('change', function() {
+        const fileName = this.files[0]?.name || 'Nenhum arquivo escolhido';
+        document.getElementById('file-name').textContent = fileName;
+    });

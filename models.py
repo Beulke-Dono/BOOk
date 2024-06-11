@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+import pytz
 
 db = SQLAlchemy()
 
@@ -22,7 +22,7 @@ class Book(db.Model):
     name = db.Column(db.String(100), nullable=False)
     author = db.Column(db.String(100), nullable=False)
     overview = db.Column(db.String(500), nullable=False)
-    release_date = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    release_date = db.Column(db.DateTime, nullable=False, default=lambda: datetime.now(pytz.timezone('GMT')))
     cover_image = db.Column(db.String(100), nullable=False)
 
 class Genre(db.Model):

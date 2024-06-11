@@ -13,8 +13,8 @@
             <h1>Enviar Livro</h1>
             <form action="{{ url_for('enviarLivro') }}" method="post" enctype="multipart/form-data">
                 <div class="text_field">
-                    <label for="name_book">Nome do Livro</label>
-                    <input type="text" name="name_book" placeholder="Nome do Livro" required>
+                    <label for="name_book">Título do Livro</label>
+                    <input type="text" name="name_book" placeholder="Título do Livro" required>
                 </div>
                 <div class="text_field">
                     <label for="author">Nome de Autor</label>
@@ -24,30 +24,28 @@
                     <label for="overview">Resumo do Livro</label>
                     <input type="text" name="overview" placeholder="Resumo" required>
                 </div>
-                <div class="text_field">
-                    <label for="publication_date">Data de Publicação</label>
-                    <input type="date" name="publication_date" required>
-                </div>
-                <div class="text_field">
-                    <label for="cover">Capa do Livro</label>
-                    <input type="file" name="cover" required>
+                <div class="file_input">
+                    <label for="cover" class="custom-file-upload">
+                            Escolher Capa
+                    </label>
+                    <input type="file" id="cover" name="cover" accept="image/*" required>
+                    <span id="file-name"></span>
                 </div>
                 <div class="text_field">
                     <label for="genres">Gêneros</label>
-                    <div class="text_field">
-                        <div class="genre-checkboxes">
+                        <div class="genre_div">
                             {% for genre in genres %}
-                            <div class="checkbox-item">
+                            <div class="checkbox_item">
                                 <input type="checkbox" id="genre_{{ genre.id_genre }}" name="genres" value="{{ genre.name_genre }}">
                                 <label for="genre_{{ genre.id_genre }}">{{ genre.name_genre }}</label>
                             </div>
                             {% endfor %}
                         </div>
-                    </div>
-                <button class="btn_login">Enviar</button>
+                </div>
+                <button class="btn_enviar_livro">Enviar</button>
             </form>
         </div>
     </main>
-<script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
 </body>
 </html>

@@ -1,4 +1,5 @@
 import os
+import pytz
 from app import app, db
 from functools import wraps
 from datetime import datetime
@@ -128,21 +129,33 @@ def envioLivro():
         name_book = request.form['name_book']
         author = request.form['author']
         overview = request.form['overview']
-        publication_date = datetime.strptime(request.form['publication_date'], '%Y-%m-%d')
         genres = request.form.getlist('genres')  # Recebe uma lista de gêneros
         cover = request.files['cover']
         
         # Salvar a capa do livro
-        if cover:
+        if cover and allowed_file(cover.filename):
             filename = secure_filename(cover.filename)
-            cover.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            cover_path = os.path.join(app.config['COVERS_FOLDER'], filename)
+            cover.save(cover_path)
+        else:
+            flash('Arquivo de capa inválido ou não enviado.', 'error')
+            return redirect(url_for('enviarLivro'))
+        
+        # Data de publicação será a data de envio do livro (com reconhecimento de fuso horário)
+        publication_date = datetime.now(pytz.timezone("GMT"))
         
         # Inicia uma nova transação
         try:
             db.session.begin()
             
             # Adicionar o livro ao banco de dados
-            novo_livro = Book(title=name_book, overview=overview, publication_date=publication_date, id_author=author)
+            novo_livro = Book(
+                name=name_book,
+                overview=overview,
+                release_date=publication_date,
+                author=author,
+                cover_image=cover_path  # Armazena o caminho da capa no banco de dados
+            )
             db.session.add(novo_livro)
             db.session.flush()  # Obtém o ID do livro antes de adicionar os gêneros
             
@@ -152,8 +165,8 @@ def envioLivro():
                 db.session.add(livro_genero)
             
             db.session.commit()  # Confirma a transação
-            return redirect(url_for('index'))
+            return redirect(url_for('usuario'))
         except Exception as e:
             db.session.rollback()  # Desfaz a transação em caso de erro
             flash('Erro ao enviar o livro: ' + str(e), 'error')
-            return redirect(url_for('enviar_livro'))
+            return redirect(url_for('enviarLivro'))
