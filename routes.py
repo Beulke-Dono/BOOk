@@ -33,7 +33,11 @@ def index():
         user = User.query.get(user_id)
         if user:
             user_name = user.name
-    return render_template('index.html', user_name=user_name)
+
+    # Recuperar todos os livros do banco de dados
+    books = Book.query.all()
+    return render_template('index.html', user_name=user_name, books=books)
+
 
 
 @app.route('/cadastro')

@@ -29,10 +29,14 @@
                 {% endif %}
             </nav>            
         </header>
-        <!-- tabindex = "0" faz com que uma div (elemento não clicável) possa chamar funções com um clique -->
         <main tabindex="0" onclick="closeSidebar()" class="content" id="content">
-            <h1>HOASPDOFASPOFJljaOofhOI</h1>
+            {% for book in books %}
+            <div class="book-card">
+                <img src="{{ url_for('static', filename=book.cover_image) }}" alt="{{ book.name }} cover" class="book-cover">
+                <h2 class="book-title">{{ book.name }}</h2>
+            </div>
+            {% endfor %}
         </main>
-    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+        <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
     </body>
 </html>
